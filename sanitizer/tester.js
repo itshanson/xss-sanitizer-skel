@@ -12,8 +12,8 @@ export class Tester {
       "message",
       (event) => {
         const id = event.data;
-        const display = this.displayLookup.get(id);
-        // TODO: Mark the test case as failing, maybe via color styles or text changes
+        const display = this.displayLookup.get(id); 
+        display.style.color = "red";
       },
       false
     );
@@ -22,12 +22,14 @@ export class Tester {
   // display a test case, generate a new ID for it, and return its ID
   displayCase(payload, cleaned) {
     const id = crypto.randomUUID();
+    const testResult = document.createElement("pre");
+    testResult.textContent = payload + "\n" + cleaned;
     // TODO: create an element to display the test case result
     // Use the payload and cleaned string variables to display the string pre- and post- sanitization
-
     // TODO: Append test case result div with casesDiv.appendChild()
-    // casesDiv.appendChild(testCaseElement);
-    this.displayLookup.set(id, outer);
+    casesDiv.appendChild(testResult);
+    this.displayLookup.set(id, testResult);
+    testResult.style.color = "green";
     return id;
   }
 
@@ -42,5 +44,8 @@ export class Tester {
       )}, ${JSON.stringify(location.origin)}); }</script>` + cleaned;
     // Test the payload
     // TODO: Create an iframe, set the srcdoc attribute to the html you want to render, and then render it by appending to the renderDiv
+    const iframe = document.createElement('iframe');
+    iframe.srcdoc = cleaned;
+    rendersDiv.append(iframe);
   }
 }
